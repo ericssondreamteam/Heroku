@@ -14,7 +14,7 @@ import java.util.Properties;
 public class GreetingController {
 
     static String emailToRecipient, emailSubject, emailMessage;
-    static final String emailFromRecipient = "karower98@gmail.com";
+    static final String emailFromRecipient = "ericssonStart@outlook.com";
 
 
     public JavaMailSender mailSender;

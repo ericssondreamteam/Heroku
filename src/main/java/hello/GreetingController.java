@@ -59,16 +59,6 @@ public class GreetingController {
         return mailSender;
     }
 
-/*    public void sendMail(String to, String subject, String body)
-    {
-        mailSender = mailSender();
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo(to);
-        message.setSubject(subject);
-        message.setText(body);
-        mailSender.send(message);
-    }*/
-
     @RequestMapping(value = "sendEmail", method = RequestMethod.POST)
     public String sendEmailToClient(HttpServletRequest request) {
 

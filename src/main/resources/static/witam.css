@@ -5,11 +5,15 @@ div {
 
 html {
     text-align: center;
-    background: linear-gradient(to right, #f6f1d3, #648880, #293f50);
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5),rgba(0, 0, 0, 0.5)), url("pills.jpg");
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 }
 
 p {
-    color: black;
+    color: white;
     font-size: 30px;
 }
 

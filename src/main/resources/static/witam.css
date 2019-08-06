@@ -1,10 +1,37 @@
+div {
+    display: block;
+    margin-top: 150px;
+}
+
+html {
+    text-align: center;
+    background: linear-gradient(to right, #f6f1d3, #648880, #293f50);
+}
+
 p {
-    color: green;
+    color: black;
+    font-size: 30px;
+}
+
+p.welcome {
+    font-size: 45px;
 }
 
 a {
+    display: block;
+    border: 4px black solid;
+    border-radius: 30px;
+    width: 200px;
+
+    margin-left: auto;
+    margin-right: auto;
+
+    padding: 10px;
+
     text-decoration: none;
 
-    font-size: 20px;
-    color: orange;
+    font-size: 30px;
+    color: white;
+
+    background-color: #293f50;
 }

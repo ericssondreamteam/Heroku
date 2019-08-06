@@ -16,4 +16,9 @@ public class GreetingController {
         return "greeting";
     }
 
+    @GetMapping("/mail")
+    public String getMail(){
+        return "mail";
+    }
+
 }

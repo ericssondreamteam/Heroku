@@ -14,7 +14,7 @@ import java.util.Properties;
 public class GreetingController {
 
     static String emailToRecipient, emailSubject, emailMessage;
-    static final String emailFromRecipient = "ericssonStart@outlook.com";
+    static final String emailFromRecipient = "karol.lasek@ericsson.com";
 
 
     public JavaMailSender mailSender;
@@ -44,8 +44,8 @@ public class GreetingController {
         mailSender.setHost("smtp.office365.com");
         mailSender.setPort(587);
 
-        mailSender.setUsername("ericssonStart@outlook.com");
-        mailSender.setPassword("qwerty12345");
+        mailSender.setUsername("karol.lasek@ericsson.com");
+        mailSender.setPassword("Ericsson2019!");
 
         Properties props = mailSender.getJavaMailProperties();
         props.put("mail.smtp.auth", "true");

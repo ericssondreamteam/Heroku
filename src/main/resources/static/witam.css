@@ -4,7 +4,7 @@ div {
 }
 
 html {
-    /*text-align: center;*/
+    text-align: center;
     background-image: linear-gradient(rgba(0, 0, 0, 0.5),rgba(0, 0, 0, 0.5)), url("pills.jpg");
     background-size: cover;
     background-position: center center;
@@ -42,8 +42,11 @@ a {
 }
 
 input {
-    width: 60px;
-    padding: 15px;
+    margin-top: 0;
+
+    width: 7vw;
+    height: auto;
+    padding: 2vh;
     cursor: pointer;
     font-weight: bold;
     font-size: 70%;
@@ -53,17 +56,15 @@ input {
 input.left {
     background: red;
     color: #fff;
-    border: 2px solid red;
-    position:relative;
-    left:36.5%;
+    border: 2px solid darkred;
+    margin-right: 5.5vw;
 }
 
 input.right {
     background: #3366cc;
     color: #fff;
-    border: 2px solid #3366cc;
-    position:relative;
-    left: 52.5%;
+    border: 2px solid darkblue;
+    margin-left: 5.5vw;
 }
 
 form {

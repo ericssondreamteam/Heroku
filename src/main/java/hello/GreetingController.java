@@ -36,7 +36,10 @@ public class GreetingController {
         return "emailForm";
     }
 
-    //@Bean
+    //ONLY FOR TEST
+    @GetMapping("success")
+    public String getSuccess(){ return "success"; }
+
     JavaMailSender mailSender() {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
 

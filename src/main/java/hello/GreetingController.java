@@ -48,6 +48,9 @@ public class GreetingController {
         // message info
         String mailTo = request.getParameter("mailTo");
         String subject = request.getParameter("subject");
+
+
+        //message body --> DO ZMIANY (jak rozwiazac zalaczanie obrazkow)
         StringBuffer body
                 = new StringBuffer("<html>This message contains two inline images.<br>");
 
@@ -62,7 +65,7 @@ public class GreetingController {
         body.append("End of message.");
         body.append("</html>");
 
-        // inline images
+        // inline images --> DO ZMIANY (funkcja ktora jest wywolywana gdy jest dodany obrazek)
         Map<String, String> inlineImages = new HashMap<String, String>();
         inlineImages.put("image1", "C:/Users/ELASKAR/Downloads/MailWitam/cat.jpg");
         inlineImages.put("image2", "C:/Users/ELASKAR/Downloads/MailWitam/rabbit.jpg");

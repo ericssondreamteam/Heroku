@@ -8,13 +8,15 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
-public class MailSender {
+public class MailSender
+{
 
     public static void send(String host, String port,
                             final String userName, final String password, String toAddress,
                             String subject, String htmlBody,
                             Map<String, String> mapInlineImages)
-            throws AddressException, MessagingException {
+            throws AddressException, MessagingException
+    {
         // sets SMTP server properties
         Properties properties = new Properties();
         properties.put("mail.smtp.host", host);
@@ -26,8 +28,10 @@ public class MailSender {
         properties.put("mail.debug", "true");
 
         // creates a new session with an authenticator
-        Authenticator auth = new Authenticator() {
-            public PasswordAuthentication getPasswordAuthentication() {
+        Authenticator auth = new Authenticator()
+        {
+            public PasswordAuthentication getPasswordAuthentication()
+            {
                 return new PasswordAuthentication(userName, password);
             }
         };
@@ -37,7 +41,7 @@ public class MailSender {
         Message msg = new MimeMessage(session);
 
         msg.setFrom(new InternetAddress(userName));
-        InternetAddress[] toAddresses = { new InternetAddress(toAddress) };
+        InternetAddress[] toAddresses = {new InternetAddress(toAddress)};
         msg.setRecipients(Message.RecipientType.TO, toAddresses);
         msg.setSubject(subject);
         msg.setSentDate(new Date());
@@ -51,18 +55,22 @@ public class MailSender {
         multipart.addBodyPart(messageBodyPart);
 
         // adds inline image attachments
-        if (mapInlineImages != null && mapInlineImages.size() > 0) {
+        if (mapInlineImages != null && mapInlineImages.size() > 0)
+        {
             Set<String> setImageID = mapInlineImages.keySet();
 
-            for (String contentId : setImageID) {
+            for (String contentId : setImageID)
+            {
                 MimeBodyPart imagePart = new MimeBodyPart();
                 imagePart.setHeader("Content-ID", "<" + contentId + ">");
                 imagePart.setDisposition(MimeBodyPart.INLINE);
 
                 String imageFilePath = mapInlineImages.get(contentId);
-                try {
+                try
+                {
                     imagePart.attachFile(imageFilePath);
-                } catch (IOException ex) {
+                } catch (IOException ex)
+                {
                     ex.printStackTrace();
                 }
 

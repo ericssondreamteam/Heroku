@@ -55,7 +55,11 @@ public class GreetingController {
                 = new StringBuffer("<html>This message contains two inline images.<br>");
 
         //new added text 7.08.2019
-        String bodyFromForm = request.getParameter("message");
+        //String bodyFromForm = request.getParameter("message");
+        
+        String bodyFromForm = request.getParameter("editor1");
+        System.out.println(bodyFromForm);
+        
         body.append(bodyFromForm + "<br>");
 
         body.append("First Image:<br>");
@@ -72,8 +76,8 @@ public class GreetingController {
         System.out.println("-------------->" + workingDirectory);
 
 
-        inlineImages.put("image1", workingDirectory + "cat.jpg");
-        inlineImages.put("image2", workingDirectory + "rabbit.jpg");
+        //inlineImages.put("image1", workingDirectory + "cat.jpg");
+        //inlineImages.put("image2", workingDirectory + "rabbit.jpg");
 
 
 

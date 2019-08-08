@@ -1,38 +1,17 @@
-<!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Spring MVC Email Example</title>
-    <style type="text/css">
-        #sendEmailBtn {
-            float: left;
-            margin-top: 22px;
-        }
-    </style>
-    <script src="ckeditor.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bluebird/3.4.6/bluebird.min.js"></script>
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>A Simple Page with CKEditor</title>
+        <!-- Make sure the path to CKEditor is correct. -->
+        <script src="ckeditor.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bluebird/3.4.6/bluebird.min.js"></script>
+        
        
-</head>
-<body>
-<div  class="jumbotron text-center">
-    <h2>Spring MVC Email Example</h2>
-    <form id="sendEmailForm" method="post" action="sendEmail" enctype="multipart/form-data" onactio>
-        <table id="emailFormBeanTable" border="0" width="80%">
-            <tr>
-                <td>Email To: </td>
-                <td><input id="receiverMail" type="text" name="mailTo" size="65" /></td>
-            </tr>
-            <tr>
-                <td>Subject: </td>
-                <td><input id="mailSubject" type="text" name="subject" size="65" /></td>
-            </tr>
-			<tr>
-			<td>Message: </td>
-            <td><textarea name="editor1" id="editor1"  onpaste="console.log('onpastefromhtml')" rows="10" cols="80" >
+    </head>
+    <body>
+        <form>
+            <textarea name="editor1" id="editor1"  onpaste="console.log('onpastefromhtml')" rows="10" cols="80" >
                 This is my textarea to be replaced with CKEditor.
             </textarea>
             <script>
@@ -41,7 +20,7 @@
                 CKEDITOR.replace( 'editor1' );
             </script>
              <script>
-                var PasteImage = function (el) {
+                    var PasteImage = function (el) {
                 this._el = el;
                 this._listenForPaste();
               };
@@ -128,22 +107,8 @@
               pasteImage.on('paste-image', function (image) {
                 document.body.appendChild(image);
               });
-              
+        
                 </script>
-                </td>
-			</tr>
-
-            <tr>
-                <td>Attachment: </td>
-                <td><input id="mailAttachment" type="file" name="attachFileObj" size="60" /></td>
-            </tr>
-            <tr>
-            
-                <td colspan="2" align="center"><input id="sendEmailBtn" type="submit" value="Send Email" /></td>
-            
-            </tr>
-        </table>
-    </form>
-</div>
-</body>
+        </form>
+    </body>
 </html>

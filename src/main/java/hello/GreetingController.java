@@ -4,41 +4,49 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 @Controller
-public class GreetingController {
+public class GreetingController
+{
 
     @GetMapping("/")
-    public String getHome() {
+    public String getHome()
+    {
         return "home";
     }
 
     @GetMapping("/greeting")
-    public String greeting() {
+    public String greeting()
+    {
         return "greeting";
     }
 
     @GetMapping("/mail")
-    public String getMail() {
+    public String getMail()
+    {
         return "mail";
     }
 
     @GetMapping("/emailForm")
-    public String getMailForm() {
+    public String getMailForm()
+    {
         return "emailForm";
     }
 
     //ONLY FOR TEST
     @GetMapping("success")
-    public String getSuccess() {
+    public String getSuccess()
+    {
         return "success";
     }
 
     //NEW VERSION (fast as fuck)XD
     @RequestMapping(value = "sendEmail", method = RequestMethod.POST)
-    public String sendEmailToClient(HttpServletRequest request) {
+    public String sendEmailToClient(HttpServletRequest request)
+    {
         // SMTP info
         String host = "smtp.office365.com";
         String port = "587";
@@ -80,12 +88,14 @@ public class GreetingController {
         //inlineImages.put("image2", workingDirectory + "rabbit.jpg");
 
 
-
-        try {
+        try
+        {
             MailSender.send(host, port, mailFrom, password, mailTo,
                     subject, body.toString(), inlineImages);
             System.out.println("Email sent.");
-        } catch (Exception ex) {
+        }
+        catch (Exception ex)
+        {
             System.out.println("Could not send email.");
             ex.printStackTrace();
         }

@@ -24,11 +24,13 @@
         <table id="emailFormBeanTable" border="0" width="80%">
             <tr>
                 <td>Email To: </td>
-                <td><input id="receiverMail" type="text" name="mailTo" size="65" /></td>
+                <td><input id="receiverMail" type="text" name="mailTo"
+                           required pattern="^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$"
+                           size="65" placeholder="Please enter email address" /></td>
             </tr>
             <tr>
                 <td>Subject: </td>
-                <td><input id="mailSubject" type="text" name="subject" size="65" /></td>
+                <td><input id="mailSubject" required minlength="1" type="text" name="subject" size="65" placeholder="Please enter subject" /></td>
             </tr>
 			<tr>
 			<td>Message: </td>

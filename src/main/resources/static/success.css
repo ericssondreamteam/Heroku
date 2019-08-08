@@ -1,0 +1,47 @@
+html {
+    text-align: center;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5),rgba(0, 0, 0, 0.5)), url("success.jpg");
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+div {
+    display: block;
+    margin-top: 50px;
+}
+
+/*.footer.content > img,
+.footer.content > p {
+    display: inline-block;
+}*/
+
+p {
+    text-align: center;
+    color: white;
+    font-size: 40px;
+    font-weight: bold;
+}
+
+a {
+    display: block;
+    border: 3px black solid;
+    border-radius: 30px;
+    width: 160px;
+
+    margin: 30px auto 30px auto;
+    padding: 10px;
+
+    text-decoration: none;
+    font-size: 30px;
+    color: white;
+
+    /*background-color: #293f50;*/
+}
+
+a:hover {
+    color: lawngreen;
+    font-weight: bold;
+    border: 4px #003300 solid;
+}

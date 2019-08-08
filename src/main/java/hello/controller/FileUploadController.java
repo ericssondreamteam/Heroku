@@ -43,7 +43,7 @@ public class FileUploadController
             }
         }
         model.addAttribute("msg", "Successfully uploaded files "+fileNames.toString());
-        return "uploadStatusView";
+        return "emailForm";
     }
 
 }

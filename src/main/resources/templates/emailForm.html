@@ -35,11 +35,18 @@
                 <td>Attachment: </td>
                 <td><input id="mailAttachment" type="file" name="attachFileObj" size="60" /></td>
             </tr>
+            <form action ="/upload" method="post" enctype="multipart/form-data">
+                <input type="file" name="files" multiple>
+                <input type="submit" value="Upload Files"><
+            </form>
             <tr>
                 <td colspan="2" align="center"><input id="sendEmailBtn" type="submit" value="Send Email" /></td>
             </tr>
         </table>
     </form>
 </div>
+<script>
+
+</script>
 </body>
 </html>

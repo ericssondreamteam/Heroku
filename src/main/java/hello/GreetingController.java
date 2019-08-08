@@ -11,6 +11,7 @@ import java.util.*;
 @Controller
 public class GreetingController
 {
+    private User user;
 
     @GetMapping("/")
     public String getHome()
@@ -43,6 +44,19 @@ public class GreetingController
         return "success";
     }
 
+    @GetMapping("/login")
+    public String getLoginPage(){
+        return "login";
+    }
+
+    //to do : DELETE getPassword();
+    @RequestMapping(value = "getLogin", method = RequestMethod.POST)
+    public String getLogin(HttpServletRequest request){
+        user = new User(request.getParameter("login"), request.getParameter("password"));
+        System.out.println("getLogin -----> LOGIN: " + user.getLogin() + " PASSWORD: " + user.getPassword());
+        return "emailForm";
+    }
+
     //NEW VERSION (fast as fuck)XD
     @RequestMapping(value = "sendEmail", method = RequestMethod.POST)
     public String sendEmailToClient(HttpServletRequest request)
@@ -50,8 +64,10 @@ public class GreetingController
         // SMTP info
         String host = "smtp.office365.com";
         String port = "587";
-        String mailFrom = "ericssonStart@outlook.com";
-        String password = "qwerty12345";
+        /*String mailFrom = "ericssonStart@outlook.com";
+        String password = "qwerty12345";*/
+        String mailFrom = user.getLogin();
+        String password = user.getPassword();
 
         // message info
         String mailTo = request.getParameter("mailTo");

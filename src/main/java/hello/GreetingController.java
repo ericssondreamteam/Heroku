@@ -1,11 +1,17 @@
 package hello;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.util.*;
 
 @Controller
@@ -30,22 +36,10 @@ public class GreetingController
         return "mail";
     }
 
-    @GetMapping("/emailForm")
-    public String getMailForm()
-    {
-        return "emailForm";
-    }
-
-    //ONLY FOR TEST
-    @GetMapping("success")
-    public String getSuccess()
-    {
-        return "success";
-    }
 
     //NEW VERSION (fast as fuck)XD
     @RequestMapping(value = "sendEmail", method = RequestMethod.POST)
-    public String sendEmailToClient(HttpServletRequest request)
+    public String sendEmailToClient(HttpServletRequest request,  Model model)
     {
         // SMTP info
         String host = "smtp.office365.com";
@@ -56,6 +50,10 @@ public class GreetingController
         // message info
         String mailTo = request.getParameter("mailTo");
         String subject = request.getParameter("subject");
+
+
+        model.addAttribute("message", mailTo);
+        model.addAttribute("message", subject);
 
 
         //message body --> DO ZMIANY (jak rozwiazac zalaczanie obrazkow)
@@ -95,5 +93,17 @@ public class GreetingController
         }
         return "success";
     }
+
+
+    @RequestMapping("/success")
+    public String getSucces(@RequestParam("mailTo") String mailTo, @RequestParam("subject") String subject , Model model)
+    {
+        // add message to the model
+        model.addAttribute("message", mailTo);
+        model.addAttribute("message", subject);
+
+        return "success";
+    }
+
 
 }

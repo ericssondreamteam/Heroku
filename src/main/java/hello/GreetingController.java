@@ -59,8 +59,7 @@ public class GreetingController
 
 
         //message body --> DO ZMIANY (jak rozwiazac zalaczanie obrazkow)
-        StringBuffer body
-                = new StringBuffer("<html>This message contains two inline images.<br>");
+        StringBuffer body = new StringBuffer("<html>This message contains two inline images.<br>");
 
         //new added text 7.08.2019
         String bodyFromForm = request.getParameter("message");
@@ -86,8 +85,7 @@ public class GreetingController
 
         try
         {
-            MailSender.send(host, port, mailFrom, password, mailTo,
-                    subject, body.toString(), inlineImages);
+            MailSender.send(host, port, mailFrom, password, mailTo, subject, body.toString(), inlineImages);
             System.out.println("Email sent.");
         }
         catch (Exception ex)

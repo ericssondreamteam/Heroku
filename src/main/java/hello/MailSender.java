@@ -2,6 +2,7 @@ package hello;
 
 import javax.mail.*;
 import javax.mail.internet.*;
+import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.util.Date;
 import java.util.Map;
@@ -11,10 +12,8 @@ import java.util.Set;
 public class MailSender
 {
 
-    public static void send(String host, String port,
-                            final String userName, final String password, String toAddress,
-                            String subject, String htmlBody,
-                            Map<String, String> mapInlineImages)
+    public static void send(String host, String port, final String userName, final String password, String toAddress,
+                            String subject, String htmlBody, Map<String, String> mapInlineImages)
             throws AddressException, MessagingException
     {
         // sets SMTP server properties

@@ -67,8 +67,15 @@ public class GreetingController {
 
         // inline images --> DO ZMIANY (funkcja ktora jest wywolywana gdy jest dodany obrazek)
         Map<String, String> inlineImages = new HashMap<String, String>();
-        inlineImages.put("image1", "C:/Users/ELASKAR/Downloads/MailWitam/cat.jpg");
-        inlineImages.put("image2", "C:/Users/ELASKAR/Downloads/MailWitam/rabbit.jpg");
+
+        String workingDirectory = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\";
+        System.out.println("-------------->" + workingDirectory);
+
+
+        inlineImages.put("image1", workingDirectory + "cat.jpg");
+        inlineImages.put("image2", workingDirectory + "rabbit.jpg");
+
+
 
         try {
             MailSender.send(host, port, mailFrom, password, mailTo,

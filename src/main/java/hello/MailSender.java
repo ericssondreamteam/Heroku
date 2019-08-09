@@ -2,6 +2,9 @@ package hello;
 
 import hello.model.HtmlCondition;
 
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
+import javax.activation.FileDataSource;
 import javax.mail.*;
 import javax.mail.internet.*;
 import java.io.IOException;
@@ -48,7 +51,7 @@ public class MailSender
         msg.setSubject(subject);
         msg.setSentDate(new Date());
 
-        // creates message part
+        /*// creates message part
         MimeBodyPart messageBodyPart = new MimeBodyPart();
         messageBodyPart.setContent(htmlBody, "text/html");
 
@@ -80,7 +83,21 @@ public class MailSender
             }
         }
 
+        msg.setContent(multipart);*/
+
+        MimeBodyPart messageBodyPart = new MimeBodyPart();
+
+        Multipart multipart = new MimeMultipart();
+
+        String file = "path of file to be attached";
+        String fileName = "attachmentName";
+        DataSource source = new FileDataSource(file);
+        messageBodyPart.setDataHandler(new DataHandler(source));
+        messageBodyPart.setFileName(fileName);
+        multipart.addBodyPart(messageBodyPart);
+
         msg.setContent(multipart);
+
 
         Transport.send(msg);
     }

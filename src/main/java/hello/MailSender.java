@@ -89,11 +89,14 @@ public class MailSender
 
         Multipart multipart = new MimeMultipart();
 
+        //petla ktora przechodzi po tablicy String
         String file = "C:\\Users\\ELASKAR\\Desktop\\HTML\\Capture.PNG";
         String fileName = "Capture.PNG";
         DataSource source = new FileDataSource(file);
         messageBodyPart.setDataHandler(new DataHandler(source));
         messageBodyPart.setFileName(fileName);
+
+        //i na koniec dodaje pliczek
         multipart.addBodyPart(messageBodyPart);
 
         msg.setContent(multipart);

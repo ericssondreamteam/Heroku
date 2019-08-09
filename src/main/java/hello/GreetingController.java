@@ -7,11 +7,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import javax.mail.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.swing.text.html.HTML;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 
 @Controller
@@ -78,7 +81,7 @@ public class GreetingController
 
     //NEW VERSION (fast as fuck)XD
     @RequestMapping(value = "sendEmail", method = RequestMethod.POST)
-    public String sendEmailToClient(HttpServletRequest request)
+    public String sendEmailToClient(HttpServletRequest request, @RequestParam("files") MultipartFile[] files)
     {
         // SMTP info
         String host = "smtp.office365.com";
@@ -122,6 +125,16 @@ public class GreetingController
         //inlineImages.put("image1", workingDirectory + "cat.jpg");
         //inlineImages.put("image2", workingDirectory + "rabbit.jpg");
 
+
+        //add files
+        //@RequestParam("files") MultipartFile[] files
+        ArrayList<String> paths = new ArrayList<>();
+        for(MultipartFile file :files)
+        {
+            Path fileNameAndPath= Paths.get(file.getOriginalFilename());
+            paths.add(fileNameAndPath.toString());
+            System.out.println("---------->" + fileNameAndPath.toString());
+        }
 
         try
         {

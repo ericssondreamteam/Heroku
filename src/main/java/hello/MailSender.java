@@ -89,8 +89,8 @@ public class MailSender
 
         Multipart multipart = new MimeMultipart();
 
-        String file = "path of file to be attached";
-        String fileName = "attachmentName";
+        String file = "C:\\Users\\ELASKAR\\Desktop\\HTML\\Capture.PNG";
+        String fileName = "Capture.PNG";
         DataSource source = new FileDataSource(file);
         messageBodyPart.setDataHandler(new DataHandler(source));
         messageBodyPart.setFileName(fileName);

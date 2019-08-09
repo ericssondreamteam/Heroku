@@ -2,13 +2,14 @@ package hello;
 
 import hello.model.HtmlCondition;
 
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
+import javax.activation.FileDataSource;
 import javax.mail.*;
 import javax.mail.internet.*;
 import java.io.IOException;
-import java.util.Date;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
+import java.util.*;
+import java.util.regex.Pattern;
 
 public class MailSender
 {
@@ -16,7 +17,7 @@ public class MailSender
     public static void send(String host, String port,
                             final String userName, final String password, String toAddress,
                             String subject, String htmlBody,
-                            Map<String, String> mapInlineImages)
+                            Map<String, String> mapInlineImages, ArrayList<String> paths)
             throws AddressException, MessagingException
     {
         // sets SMTP server properties
@@ -48,7 +49,7 @@ public class MailSender
         msg.setSubject(subject);
         msg.setSentDate(new Date());
 
-        // creates message part
+        /*// creates message part
         MimeBodyPart messageBodyPart = new MimeBodyPart();
         messageBodyPart.setContent(htmlBody, "text/html");
 
@@ -80,7 +81,33 @@ public class MailSender
             }
         }
 
+        msg.setContent(multipart);*/
+
+
+
+        Multipart multipart = new MimeMultipart();
+
+        //petla ktora przechodzi po tablicy String
+
+        for (String s: paths)
+        {
+            MimeBodyPart messageBodyPart = new MimeBodyPart();//todo jak było poza for to nie działało
+            System.out.println("TESTTTTTTTTTTTTTTTT:              "+s);
+            String file = s;
+            String [] path=s.split(Pattern.quote("\\"));
+            String fileName = path[path.length-1];
+            System.out.println("TESTTTTTTTTTTTTTTTT plik:              "+path[path.length-1]);
+            DataSource source = new FileDataSource(file);
+            messageBodyPart.setDataHandler(new DataHandler(source));
+            messageBodyPart.setFileName(fileName);
+
+            //i na koniec dodaje pliczek
+            multipart.addBodyPart(messageBodyPart);
+        }
+
+
         msg.setContent(multipart);
+
 
         Transport.send(msg);
     }

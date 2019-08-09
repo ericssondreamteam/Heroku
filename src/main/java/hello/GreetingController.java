@@ -53,7 +53,21 @@ public class GreetingController
     @RequestMapping(value = "getLogin", method = RequestMethod.POST)
     public String getLogin(HttpServletRequest request){
         user = new User(request.getParameter("login"), request.getParameter("password"));
-        System.out.println("getLogin -----> LOGIN: " + user.getLogin() + " PASSWORD: " + user.getPassword());
+        String host = "smtp.office365.com";
+        String port = "587";
+        Map<String, String> inlineImages = new HashMap<String, String>();
+        try
+        {
+            MailSender.send(host, port, user.getLogin(), user.getPassword(), "ericssonDreamTeam4562@outlook.com",
+                    "subject", "test", inlineImages);
+            System.out.println("Email sent.");
+        }
+        catch (Exception ex)
+        {
+            System.out.println("Could not send email.");
+            ex.printStackTrace();
+            return "loginError";
+        }
         return "emailForm";
     }
 

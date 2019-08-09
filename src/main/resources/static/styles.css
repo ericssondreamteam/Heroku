@@ -23,6 +23,14 @@ html,body{
     background-color: rgba(0,0,0,0.5) !important;
 }
 
+.cardError{
+    height: 333px;
+    margin-top: auto;
+    margin-bottom: auto;
+    width: 400px;
+    background-color: rgba(0,0,0,0.5) !important;
+}
+
 .social_icon span{
     font-size: 60px;
     margin-left: 10px;
@@ -87,4 +95,9 @@ input:focus{
 
 .links a{
     margin-left: 4px;
+}
+
+.alert-danger {
+    margin-bottom: 0px;
+    margin-top: 23px;
 }

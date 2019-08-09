@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.mail.*;
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
@@ -54,7 +55,8 @@ public class GreetingController
     public String getLogin(HttpServletRequest request){
         user = new User(request.getParameter("login"), request.getParameter("password"));
         System.out.println("getLogin -----> LOGIN: " + user.getLogin() + " PASSWORD: " + user.getPassword());
-        return "emailForm";
+
+        return MailSender.checkConnection(user);
     }
 
     //NEW VERSION (fast as fuck)XD

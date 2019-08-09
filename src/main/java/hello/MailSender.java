@@ -9,6 +9,7 @@ import javax.mail.*;
 import javax.mail.internet.*;
 import java.io.IOException;
 import java.util.*;
+import java.util.regex.Pattern;
 
 public class MailSender
 {
@@ -87,14 +88,21 @@ public class MailSender
         Multipart multipart = new MimeMultipart();
 
         //petla ktora przechodzi po tablicy String
-        String file = "C:\\Users\\ELASKAR\\Desktop\\HTML\\Capture.PNG";
-        String fileName = "Capture.PNG";
-        DataSource source = new FileDataSource(file);
-        messageBodyPart.setDataHandler(new DataHandler(source));
-        messageBodyPart.setFileName(fileName);
 
-        //i na koniec dodaje pliczek
-        multipart.addBodyPart(messageBodyPart);
+        for (String s: paths)
+        {
+            System.out.println("TESTTTTTTTTTTTTTTTT:              "+s);
+            String file = s;
+            String [] path=s.split(Pattern.quote("\\"));
+            String fileName = path[path.length-1];;
+            DataSource source = new FileDataSource(file);
+            messageBodyPart.setDataHandler(new DataHandler(source));
+            messageBodyPart.setFileName(fileName);
+
+            //i na koniec dodaje pliczek
+            multipart.addBodyPart(messageBodyPart);
+        }
+
 
         msg.setContent(multipart);
 

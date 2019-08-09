@@ -83,7 +83,7 @@ public class MailSender
 
         msg.setContent(multipart);*/
 
-        MimeBodyPart messageBodyPart = new MimeBodyPart();
+
 
         Multipart multipart = new MimeMultipart();
 
@@ -91,10 +91,12 @@ public class MailSender
 
         for (String s: paths)
         {
+            MimeBodyPart messageBodyPart = new MimeBodyPart();//todo jak było poza for to nie działało
             System.out.println("TESTTTTTTTTTTTTTTTT:              "+s);
             String file = s;
             String [] path=s.split(Pattern.quote("\\"));
-            String fileName = path[path.length-1];;
+            String fileName = path[path.length-1];
+            System.out.println("TESTTTTTTTTTTTTTTTT plik:              "+path[path.length-1]);
             DataSource source = new FileDataSource(file);
             messageBodyPart.setDataHandler(new DataHandler(source));
             messageBodyPart.setFileName(fileName);

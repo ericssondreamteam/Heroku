@@ -12,28 +12,48 @@
             float: left;
             margin-top: 22px;
         }
+        body, html {
+  			height: 100%;
+		}
+		.bg {
+  		/* The image used */
+  		background-image: url("https://mdbootstrap.com/img/Photos/Horizontal/Nature/full page/img(11).jpg");
+
+  		height: 200%;
+
+  		/* Center and scale the image nicely */
+  		background-position: center;
+  		background-repeat: repeat-y;
+  		background-size: cover;
+		}
+		.header {
+			text-align: center;
+		}
     </style>
     <script src="ckeditor.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bluebird/3.4.6/bluebird.min.js"></script>
-       
+        <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
 </head>
 <body>
-<div  class="jumbotron text-center">
-    <h2>Spring MVC Email Example</h2>
+<div class="bg">
+    <h2 class="header"><b>Email Sending Form</b></h2>
+    <hr>
     <form id="sendEmailForm" method="post" action="sendEmail" enctype="multipart/form-data" >
         <table id="emailFormBeanTable" border="0" width="80%">
             <tr>
-                <td>Email To: </td>
+                <td><b>Email To: </b></td>
                 <td><input id="receiverMail" type="text" name="mailTo"
                            required pattern="^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$"
-                           class="w-100 p-3" placeholder="Please enter email address" /></td>
+                           class="form-control mb-7 col-12" placeholder="Please enter email address" /></td>
             </tr>
             <tr>
-                <td>Subject: </td>
-                <td><input id="mailSubject" required minlength="1" type="text" name="subject" class="w-100 p-3" placeholder="Please enter subject" /></td>
+                <td><b>Subject: </b></td>
+                <td><input id="mailSubject" required minlength="1" type="text" class="form-control mb-7 col-12" name="subject" placeholder="Please enter subject" /></td>
             </tr>
 			<tr>
-			<td>Message: </td>
+			<td><b>Message: </b></td>
             <td><textarea name="editor1" id="editor1"  onpaste="console.log('onpastefromhtml')" rows="10" cols="80" >
                 This is my textarea to be replaced with CKEditor.
             </textarea>
@@ -136,16 +156,16 @@
 			</tr>
 
             <tr>
-                <td>Attachment: </td>
-                <td><input id="mailAttachment" type="file" name="attachFileObj" size="60" /></td>
+                <td><b>Attachment: </b></td>
+                <td colspan="2" align="left"><input id="mailAttachment" type="file" class="btn btn-info col-5" name="attachFileObj" size="60" /></td>
             </tr>
             <tr>
-            
-                <td colspan="2" align="center"><input id="sendEmailBtn" type="submit" value="Send Email" /></td>
+                <td colspan="2" align="center"><button id="sendEmailBtn" type="submit" class="btn btn-info col-2" >Send Email</button></td>
             
             </tr>
         </table>
     </form>
+    <hr>
 </div>
 </body>
 </html>

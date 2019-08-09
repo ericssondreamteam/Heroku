@@ -1,5 +1,7 @@
 package hello;
 
+import hello.model.HtmlCondition;
+
 import javax.mail.*;
 import javax.mail.internet.*;
 import java.io.IOException;
@@ -84,6 +86,7 @@ public class MailSender
     }
 
     public static String checkConnection(User user){
+
         boolean check = false;
         //Java Version
         int port = 587;
@@ -105,15 +108,18 @@ public class MailSender
         }
         catch(AuthenticationFailedException e) {
             System.out.println("---->checkConnection<---- AuthenticationFailedException - for authentication failures");
-            e.printStackTrace();
-            return "loginError";
+            //e.printStackTrace();
+            HtmlCondition.setCondition("true");
+            return "login";
         }
         catch(MessagingException e) {
             System.out.println("---->checkConnection<---- for other failures");
-            e.printStackTrace();
-            return "loginError";
+           // e.printStackTrace();
+            HtmlCondition.setCondition("true");
+            return "login";
         }
         check = true;
+        HtmlCondition.setCondition("false");
         return "emailForm";
     }
 

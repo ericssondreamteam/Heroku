@@ -1,12 +1,15 @@
 package hello;
 
+import hello.model.HtmlCondition;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.mail.*;
 import javax.servlet.http.HttpServletRequest;
+import javax.swing.text.html.HTML;
 import java.util.*;
 
 @Controller
@@ -46,17 +49,29 @@ public class GreetingController
     }
 
     @GetMapping("/login")
-    public String getLoginPage(){
+    public String getLoginPage(Model model){
+       // if(HtmlCondition.getCondition().equals("true"))
+        System.out.println("\n\n**************LOGIN PAGE*************");
+        model.addAttribute("valid",HtmlCondition.getCondition());
+        System.out.println("----------------------------------------------->"+HtmlCondition.getCondition());
         return "login";
     }
 
     //to do : DELETE getPassword();
     @RequestMapping(value = "getLogin", method = RequestMethod.POST)
-    public String getLogin(HttpServletRequest request){
+    public String getLogin(HttpServletRequest request, Model model){
         user = new User(request.getParameter("login"), request.getParameter("password"));
         System.out.println("getLogin -----> LOGIN: " + user.getLogin() + " PASSWORD: " + user.getPassword());
+        HtmlCondition.setCondition("true");
+        model.addAttribute("valid",HtmlCondition.getCondition());
+        System.out.println("GET---------------------------------------------->"+HtmlCondition.getCondition());
 
-        return MailSender.checkConnection(user);
+        if(MailSender.checkConnection(user).equals("login"))
+            return "login";
+        if(MailSender.checkConnection(user).equals("emailForm"))
+            return "emailForm";
+        else
+            return null;
     }
 
     //NEW VERSION (fast as fuck)XD

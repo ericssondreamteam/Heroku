@@ -79,6 +79,7 @@
             <artifactId>hibernate-validator-cdi</artifactId>
             <version>6.0.17.Final</version>
         </dependency>
+
     </dependencies>
 
     <properties>

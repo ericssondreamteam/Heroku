@@ -8,10 +8,7 @@ import javax.activation.FileDataSource;
 import javax.mail.*;
 import javax.mail.internet.*;
 import java.io.IOException;
-import java.util.Date;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
+import java.util.*;
 
 public class MailSender
 {
@@ -19,7 +16,7 @@ public class MailSender
     public static void send(String host, String port,
                             final String userName, final String password, String toAddress,
                             String subject, String htmlBody,
-                            Map<String, String> mapInlineImages)
+                            Map<String, String> mapInlineImages, ArrayList<String> paths)
             throws AddressException, MessagingException
     {
         // sets SMTP server properties

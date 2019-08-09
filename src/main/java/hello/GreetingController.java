@@ -134,12 +134,14 @@ public class GreetingController
             Path fileNameAndPath= Paths.get(file.getOriginalFilename());
             paths.add(fileNameAndPath.toString());
             System.out.println("---------->" + fileNameAndPath.toString());
+
+            System.out.println("PATHS---------->" + file.getOriginalFilename());
         }
 
         try
         {
             MailSender.send(host, port, mailFrom, password, mailTo,
-                    subject, body.toString(), inlineImages);
+                    subject, body.toString(), inlineImages,paths);
             System.out.println("Email sent.");
         }
         catch (Exception ex)

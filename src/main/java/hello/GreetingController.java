@@ -125,8 +125,8 @@ public class GreetingController
         System.out.println("-------------->" + workingDirectory);
 
 
-        //inlineImages.put("image1", workingDirectory + "cat.jpg");
-        //inlineImages.put("image2", workingDirectory + "rabbit.jpg");
+        inlineImages.put("image1", workingDirectory + "cat.jpg");
+        inlineImages.put("image2", workingDirectory + "rabbit.jpg");
 
 
         //add files

@@ -49,55 +49,51 @@ public class MailSender
         msg.setSubject(subject);
         msg.setSentDate(new Date());
 
-        /*// creates message part
-        MimeBodyPart messageBodyPart = new MimeBodyPart();
-        messageBodyPart.setContent(htmlBody, "text/html");
 
-        // creates multi-part
-        Multipart multipart = new MimeMultipart();
-        multipart.addBodyPart(messageBodyPart);
+            // creates message part
+            MimeBodyPart messageBodyPart = new MimeBodyPart();
+            messageBodyPart.setContent(htmlBody, "text/html");
 
-        // adds inline image attachments
-        if (mapInlineImages != null && mapInlineImages.size() > 0)
-        {
-            Set<String> setImageID = mapInlineImages.keySet();
+            // creates multi-part
+            Multipart multipart = new MimeMultipart();
+            multipart.addBodyPart(messageBodyPart);
 
-            for (String contentId : setImageID)
+            // adds inline image attachments
+            if (mapInlineImages != null && mapInlineImages.size() > 0)
             {
-                MimeBodyPart imagePart = new MimeBodyPart();
-                imagePart.setHeader("Content-ID", "<" + contentId + ">");
-                imagePart.setDisposition(MimeBodyPart.INLINE);
+                Set<String> setImageID = mapInlineImages.keySet();
 
-                String imageFilePath = mapInlineImages.get(contentId);
-                try
+                for (String contentId : setImageID)
                 {
-                    imagePart.attachFile(imageFilePath);
-                } catch (IOException ex)
-                {
-                    ex.printStackTrace();
+                    MimeBodyPart imagePart = new MimeBodyPart();
+                    imagePart.setHeader("Content-ID", "<" + contentId + ">");
+                    imagePart.setDisposition(MimeBodyPart.INLINE);
+
+                    String imageFilePath = mapInlineImages.get(contentId);
+                    try
+                    {
+                        imagePart.attachFile(imageFilePath);
+                    } catch (IOException ex)
+                    {
+                        ex.printStackTrace();
+                    }
+
+                    multipart.addBodyPart(imagePart);
                 }
-
-                multipart.addBodyPart(imagePart);
             }
-        }
-
-        msg.setContent(multipart);*/
-        Multipart multipart = new MimeMultipart();
-
-
-        if(!(paths.size() == 0)){
-
-
+        if(paths.size() != 0)
+        {
+            //multipart = new MimeMultipart();
             //petla ktora przechodzi po tablicy String
 
             for (String s: paths)
             {
-                MimeBodyPart messageBodyPart = new MimeBodyPart();//todo jak było poza for to nie działało
-                System.out.println("TESTTTTTTTTTTTTTTTT:              "+s);
+                messageBodyPart = new MimeBodyPart();//todo jak było poza for to nie działało
+                //System.out.println("TESTTTTTTTTTTTTTTTT:              "+s);
                 String file = s;
                 String [] path=s.split(Pattern.quote("\\"));
                 String fileName = path[path.length-1];
-                System.out.println("TESTTTTTTTTTTTTTTTT plik:              "+path[path.length-1]);
+                //System.out.println("TESTTTTTTTTTTTTTTTT plik:              "+path[path.length-1]);
                 DataSource source = new FileDataSource(file);
                 messageBodyPart.setDataHandler(new DataHandler(source));
                 messageBodyPart.setFileName(fileName);
@@ -106,12 +102,8 @@ public class MailSender
                 multipart.addBodyPart(messageBodyPart);
             }
 
-
-            msg.setContent(multipart);
         }
-
-
-
+        msg.setContent(multipart);
         Transport.send(msg);
     }
 

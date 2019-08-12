@@ -157,11 +157,11 @@
 
             <tr>
                 <td><b>Image in email: </b></td>
-                <td colspan="2" align="left"><input id="imageInEmail" type="file" class="btn btn-info col-5" name="images" size="60" multiple/></td>
+                <td colspan="2" align="left"><input id="imageInEmail" type="file" required accept="image/*" class="btn btn-info col-5" name="images" size="60" multiple/>Only images</td>
             </tr>
             <tr>
                 <td><b>Attachment: </b></td>
-                <td colspan="2" align="left"><input id="mailAttachment" type="file" class="btn btn-info col-5" name="files" size="60" multiple/></td>
+                <td colspan="2" align="left"><input id="mailAttachment" type="file" required accept="[everything but .exe and .app]" class="btn btn-info col-5" name="files" size="60" multiple/></td>
             </tr>
             <tr>
                 <td colspan="2" align="center"><button id="sendEmailBtn" type="submit" class="btn btn-info col-2" >Send Email</button></td>

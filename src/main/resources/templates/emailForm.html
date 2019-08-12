@@ -6,7 +6,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Spring MVC Email Example</title>
+    <title>Email Form</title>
     <style type="text/css">
         #sendEmailBtn {
             float: left;
@@ -33,7 +33,10 @@
     <script src="ckeditor.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bluebird/3.4.6/bluebird.min.js"></script>
         <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
+          crossorigin="anonymous">
 
 </head>
 <body>
@@ -162,11 +165,13 @@
             <tr>
                 <td><b>Attachment(max 10): </b></td>
                 <td colspan="2" align="left"><input id="mailAttachment" type="file" class="btn btn-info col-5" name="files" size="60" multiple/></td>
+
             </tr>
+
             <tr>
                 <td colspan="2" align="center"><button id="sendEmailBtn" type="submit" class="btn btn-info col-2" >Send Email</button></td>
-            
             </tr>
+
         </table>
     </form>
     <hr>

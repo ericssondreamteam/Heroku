@@ -8,17 +8,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
-import javax.mail.*;
 import javax.servlet.http.HttpServletRequest;
-import javax.swing.text.html.HTML;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 public class GreetingController
@@ -84,13 +81,11 @@ public class GreetingController
 
     //NEW VERSION (fast as fuck)XD
     @RequestMapping(value = "sendEmail", method = RequestMethod.POST)
-    public String sendEmailToClient(HttpServletRequest request, @RequestParam("files") MultipartFile[] files)
+    public String sendEmailToClient(HttpServletRequest request, @RequestParam("files") MultipartFile[] files,@RequestParam("images") MultipartFile[] images)
     {
         // SMTP info
         String host = "smtp.office365.com";
         String port = "587";
-        /*String mailFrom = "ericssonStart@outlook.com";
-        String password = "qwerty12345";*/
         String mailFrom = user.getLogin();
         String password = user.getPassword();
 
@@ -103,42 +98,42 @@ public class GreetingController
         StringBuffer body
                 = new StringBuffer("<html>This message contains two inline images.<br>");
 
-        //new added text 7.08.2019
-        //String bodyFromForm = request.getParameter("message");
-        
         String bodyFromForm = request.getParameter("editor1");
         System.out.println(bodyFromForm);
-        
         body.append(bodyFromForm + "<br>");
 
-        body.append("First Image:<br>");
-        body.append("<img src=\"cid:image1\" width=\"30%\" height=\"30%\" /><br>");
-        body.append("The second one:<br>");
-        body.append("<img src=\"cid:image2\" width=\"15%\" height=\"15%\" /><br>");
-        body.append("End of message.");
-        body.append("</html>");
 
         // inline images --> DO ZMIANY (funkcja ktora jest wywolywana gdy jest dodany obrazek)
         Map<String, String> inlineImages = new HashMap<String, String>();
 
-        String workingDirectory = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\";
-        System.out.println("-------------->" + workingDirectory);
+        int imagesCounter=0;
+        if(((images != null) && (images.length > 0) && (!images.equals("")))){
+            for(MultipartFile file :images)
+            {
+                File newFile2;
+                String pathAndFilename;
+                try
+                {
+                    imagesCounter++;
+                    newFile2 = convert(file);
+                    pathAndFilename = newFile2.getAbsolutePath();
 
+                    inlineImages.put("image"+imagesCounter,pathAndFilename);
+                    body.append("<img src=\"cid:image" + imagesCounter + "\" width=\"30%\" height=\"30%\" /><br>");
 
-        inlineImages.put("image1", workingDirectory + "cat.jpg");
-        inlineImages.put("image2", workingDirectory + "rabbit.jpg");
+                } catch (IOException e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        }
+        body.append("</html>");
 
-
-        //add files
-        //@RequestParam("files") MultipartFile[] files
         ArrayList<String> paths = new ArrayList<>();
 
         if(((files != null) && (files.length > 0) && (!files.equals("")))){
             for(MultipartFile file :files)
             {
-                //Path fileNameAndPath= Paths.get(file.getOriginalFilename());
-                //paths.add(fileNameAndPath.toString());
-
                 File newFile;
                 String pathAndFilename;
 

@@ -13,6 +13,9 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import javax.mail.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.swing.text.html.HTML;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
@@ -129,14 +132,31 @@ public class GreetingController
         //add files
         //@RequestParam("files") MultipartFile[] files
         ArrayList<String> paths = new ArrayList<>();
-        for(MultipartFile file :files)
-        {
-            Path fileNameAndPath= Paths.get(file.getOriginalFilename());
-            paths.add(fileNameAndPath.toString());
-            System.out.println("---------->" + fileNameAndPath.toString());
 
-            System.out.println("PATHS---------->" + file.getOriginalFilename());
+        if(((files != null) && (files.length > 0) && (!files.equals("")))){
+            for(MultipartFile file :files)
+            {
+                //Path fileNameAndPath= Paths.get(file.getOriginalFilename());
+                //paths.add(fileNameAndPath.toString());
+
+                File newFile;
+                String pathAndFilename;
+
+                try
+                {
+                    newFile = convert(file);
+                    System.out.println("-----------------> FILE PATH" + newFile.getAbsolutePath());
+                    pathAndFilename = newFile.getAbsolutePath();
+                    paths.add(pathAndFilename);
+
+                } catch (IOException e)
+                {
+                    e.printStackTrace();
+                }
+                System.out.println("----------> MULTIPART PATH" + file.getOriginalFilename());
+            }
         }
+
 
         try
         {
@@ -151,6 +171,16 @@ public class GreetingController
             return "error";
         }
         return "success";
+    }
+
+    public static File convert(MultipartFile file) throws IOException
+    {
+        File convFile = new File(file.getOriginalFilename());
+        convFile.createNewFile();
+        FileOutputStream fos = new FileOutputStream(convFile);
+        fos.write(file.getBytes());
+        fos.close();
+        return convFile;
     }
 
 }

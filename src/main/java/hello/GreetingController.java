@@ -83,6 +83,10 @@ public class GreetingController
     @RequestMapping(value = "sendEmail", method = RequestMethod.POST)
     public String sendEmailToClient(HttpServletRequest request, @RequestParam("files") MultipartFile[] files,@RequestParam("images") MultipartFile[] images)
     {
+        if(files.length>10 || images.length>10)
+        {
+            return "error";
+        }
         // SMTP info
         String host = "smtp.office365.com";
         String port = "587";
@@ -107,7 +111,7 @@ public class GreetingController
         Map<String, String> inlineImages = new HashMap<String, String>();
 
         int imagesCounter=0;
-        if(((images != null) && (images.length > 0) && (!images.equals("")))){
+        if((images != null) && (images.length > 0) && (!images.equals("")) ){
             for(MultipartFile file :images)
             {
                 File newFile2;

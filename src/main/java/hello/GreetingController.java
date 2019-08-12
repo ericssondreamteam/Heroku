@@ -121,18 +121,18 @@ public class GreetingController
         String workingDirectory = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\";
         System.out.println("-------------->" + workingDirectory);
         ArrayList<String> imagesPath = new ArrayList<>();
+        int imagesCounter=0;
         if(((images != null) && (images.length > 0) && (!images.equals("")))){
             for(MultipartFile file :images)
             {
                 File newFile2;
                 String pathAndFilename;
-
                 try
                 {
+                    imagesCounter++;
                     newFile2 = convert(file);
-                    System.out.println("-----------------> FILE PATH" + newFile2.getAbsolutePath());
                     pathAndFilename = newFile2.getAbsolutePath();
-                    imagesPath.add(pathAndFilename);
+                    inlineImages.put("image"+imagesCounter,pathAndFilename);
 
                 } catch (IOException e)
                 {
@@ -140,20 +140,13 @@ public class GreetingController
                 }
             }
         }
-        inlineImages.put("image1", imagesPath.get(0));
-        inlineImages.put("image2", imagesPath.get(1));
 
 
-        //add files
-        //@RequestParam("files") MultipartFile[] files
         ArrayList<String> paths = new ArrayList<>();
 
         if(((files != null) && (files.length > 0) && (!files.equals("")))){
             for(MultipartFile file :files)
             {
-                //Path fileNameAndPath= Paths.get(file.getOriginalFilename());
-                //paths.add(fileNameAndPath.toString());
-
                 File newFile;
                 String pathAndFilename;
 

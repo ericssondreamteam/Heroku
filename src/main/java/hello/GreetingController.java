@@ -8,17 +8,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
-import javax.mail.*;
 import javax.servlet.http.HttpServletRequest;
-import javax.swing.text.html.HTML;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 public class GreetingController
@@ -84,7 +81,7 @@ public class GreetingController
 
     //NEW VERSION (fast as fuck)XD
     @RequestMapping(value = "sendEmail", method = RequestMethod.POST)
-    public String sendEmailToClient(HttpServletRequest request, @RequestParam("files") MultipartFile[] files)
+    public String sendEmailToClient(HttpServletRequest request, @RequestParam("files") MultipartFile[] files,@RequestParam("images") MultipartFile[] images)
     {
         // SMTP info
         String host = "smtp.office365.com";
@@ -123,10 +120,28 @@ public class GreetingController
 
         String workingDirectory = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\";
         System.out.println("-------------->" + workingDirectory);
+        ArrayList<String> imagesPath = new ArrayList<>();
+        if(((images != null) && (images.length > 0) && (!images.equals("")))){
+            for(MultipartFile file :images)
+            {
+                File newFile2;
+                String pathAndFilename;
 
+                try
+                {
+                    newFile2 = convert(file);
+                    System.out.println("-----------------> FILE PATH" + newFile2.getAbsolutePath());
+                    pathAndFilename = newFile2.getAbsolutePath();
+                    imagesPath.add(pathAndFilename);
 
-        inlineImages.put("image1", workingDirectory + "cat.jpg");
-        inlineImages.put("image2", workingDirectory + "rabbit.jpg");
+                } catch (IOException e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        }
+        inlineImages.put("image1", imagesPath.get(0));
+        inlineImages.put("image2", imagesPath.get(1));
 
 
         //add files

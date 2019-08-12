@@ -86,8 +86,6 @@ public class GreetingController
         // SMTP info
         String host = "smtp.office365.com";
         String port = "587";
-        /*String mailFrom = "ericssonStart@outlook.com";
-        String password = "qwerty12345";*/
         String mailFrom = user.getLogin();
         String password = user.getPassword();
 
@@ -100,26 +98,14 @@ public class GreetingController
         StringBuffer body
                 = new StringBuffer("<html>This message contains two inline images.<br>");
 
-        //new added text 7.08.2019
-        //String bodyFromForm = request.getParameter("message");
-        
         String bodyFromForm = request.getParameter("editor1");
         System.out.println(bodyFromForm);
-        
-       /* body.append(bodyFromForm + "<br>");
+        body.append(bodyFromForm + "<br>");
 
-        body.append("First Image:<br>");
-        body.append("<img src=\"cid:image1\" width=\"30%\" height=\"30%\" /><br>");
-        body.append("The second one:<br>");
-        body.append("<img src=\"cid:image2\" width=\"15%\" height=\"15%\" /><br>");
-        body.append("End of message.");*/
 
         // inline images --> DO ZMIANY (funkcja ktora jest wywolywana gdy jest dodany obrazek)
         Map<String, String> inlineImages = new HashMap<String, String>();
 
-        String workingDirectory = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\";
-        System.out.println("-------------->" + workingDirectory);
-        ArrayList<String> imagesPath = new ArrayList<>();
         int imagesCounter=0;
         if(((images != null) && (images.length > 0) && (!images.equals("")))){
             for(MultipartFile file :images)
@@ -141,7 +127,6 @@ public class GreetingController
                 }
             }
         }
-
         body.append("</html>");
 
         ArrayList<String> paths = new ArrayList<>();

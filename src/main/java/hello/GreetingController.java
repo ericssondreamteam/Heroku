@@ -106,14 +106,13 @@ public class GreetingController
         String bodyFromForm = request.getParameter("editor1");
         System.out.println(bodyFromForm);
         
-        body.append(bodyFromForm + "<br>");
+       /* body.append(bodyFromForm + "<br>");
 
         body.append("First Image:<br>");
         body.append("<img src=\"cid:image1\" width=\"30%\" height=\"30%\" /><br>");
         body.append("The second one:<br>");
         body.append("<img src=\"cid:image2\" width=\"15%\" height=\"15%\" /><br>");
-        body.append("End of message.");
-        body.append("</html>");
+        body.append("End of message.");*/
 
         // inline images --> DO ZMIANY (funkcja ktora jest wywolywana gdy jest dodany obrazek)
         Map<String, String> inlineImages = new HashMap<String, String>();
@@ -132,7 +131,9 @@ public class GreetingController
                     imagesCounter++;
                     newFile2 = convert(file);
                     pathAndFilename = newFile2.getAbsolutePath();
+
                     inlineImages.put("image"+imagesCounter,pathAndFilename);
+                    body.append("<img src=\"cid:image" + imagesCounter + "\" width=\"30%\" height=\"30%\" /><br>");
 
                 } catch (IOException e)
                 {
@@ -141,6 +142,7 @@ public class GreetingController
             }
         }
 
+        body.append("</html>");
 
         ArrayList<String> paths = new ArrayList<>();
 

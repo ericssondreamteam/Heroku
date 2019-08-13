@@ -80,13 +80,11 @@ public class GreetingController
             return "emailForm";
         else
             return null;
-
-
     }
 
-    //NEW VERSION (fast as fuck)XD
     @RequestMapping(value = "sendEmail", method = RequestMethod.POST)
-    public String sendEmailToClient(HttpServletRequest request, @RequestParam("files") MultipartFile[] files, @RequestParam("images") MultipartFile[] images)
+    public String sendEmailToClient(HttpServletRequest request, @RequestParam("files") MultipartFile[] files, @RequestParam("images") MultipartFile[] images,
+                                    @RequestParam(required = true) String mailTo, @RequestParam(required = true) String subject )
     {
         if (files.length > 10 || images.length > 10)
         {
@@ -99,8 +97,8 @@ public class GreetingController
         String password = user.getPassword();
 
         // message info
-        String mailTo = request.getParameter("mailTo");
-        String subject = request.getParameter("subject");
+        request.getParameter("mailTo");
+        request.getParameter("subject");
 
         //message body --> DO ZMIANY (jak rozwiazac zalaczanie obrazkow)
         StringBuffer body = service.getBody(request);
@@ -124,5 +122,4 @@ public class GreetingController
         }
         return "success";
     }
-    
 }

@@ -11,6 +11,7 @@ import javax.swing.text.SimpleAttributeSet;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Map;
 
 @Service
@@ -54,6 +55,35 @@ public class MailSenderService
             }
         }
     }
+
+    public ArrayList<String> getFiles(@RequestParam("files") MultipartFile[] files)
+    {
+        ArrayList<String> paths = new ArrayList<>();
+
+        if (((files != null) && (files.length > 0) && (!files.equals(""))))
+        {
+            for (MultipartFile file : files)
+            {
+                File newFile;
+                String pathAndFilename;
+
+                try
+                {
+                    newFile = convert(file);
+                    System.out.println("-----------------> FILE PATH" + newFile.getAbsolutePath());
+                    pathAndFilename = newFile.getAbsolutePath();
+                    paths.add(pathAndFilename);
+
+                } catch (IOException e)
+                {
+                    e.printStackTrace();
+                }
+                System.out.println("----------> MULTIPART PATH" + file.getOriginalFilename());
+            }
+        }
+        return paths;
+    }
+
 
     public static File convert(MultipartFile file) throws IOException
     {

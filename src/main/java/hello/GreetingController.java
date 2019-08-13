@@ -113,12 +113,10 @@ public class GreetingController
 
         // inline images --> DO ZMIANY (funkcja ktora jest wywolywana gdy jest dodany obrazek)
         Map<String, String> inlineImages = new HashMap<String, String>();
-
-        //nowe
+        
         service.images(images, body, inlineImages);
         body.append("</html>");
-        //nowe2
-        ArrayList<String> paths = getFiles(files);
+        ArrayList<String> paths = service.getFiles(files);
 
         try
         {
@@ -133,60 +131,6 @@ public class GreetingController
         }
         return "success";
     }
-
-    public ArrayList<String> getFiles(@RequestParam("files") MultipartFile[] files)
-    {
-        ArrayList<String> paths = new ArrayList<>();
-
-        if (((files != null) && (files.length > 0) && (!files.equals(""))))
-        {
-            for (MultipartFile file : files)
-            {
-                File newFile;
-                String pathAndFilename;
-
-                try
-                {
-                    newFile = convert(file);
-                    System.out.println("-----------------> FILE PATH" + newFile.getAbsolutePath());
-                    pathAndFilename = newFile.getAbsolutePath();
-                    paths.add(pathAndFilename);
-
-                } catch (IOException e)
-                {
-                    e.printStackTrace();
-                }
-                System.out.println("----------> MULTIPART PATH" + file.getOriginalFilename());
-            }
-        }
-        return paths;
-    }
-
-//    public void images(@RequestParam("images") MultipartFile[] images, StringBuffer body, Map<String, String> inlineImages)
-//    {
-//        int imagesCounter = 0;
-//        if ((images != null) && (images.length > 0) && (!images.equals("")))
-//        {
-//            for (MultipartFile file : images)
-//            {
-//                File newFile2;
-//                String pathAndFilename;
-//                try
-//                {
-//                    imagesCounter++;
-//                    newFile2 = convert(file);
-//                    pathAndFilename = newFile2.getAbsolutePath();
-//
-//                    inlineImages.put("image" + imagesCounter, pathAndFilename);
-//                    body.append("<img src=\"cid:image" + imagesCounter + "\" width=\"30%\" height=\"30%\" /><br>");
-//
-//                } catch (IOException e)
-//                {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }
-//    }
 
     public static File convert(MultipartFile file) throws IOException
     {

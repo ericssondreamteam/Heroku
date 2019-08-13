@@ -85,6 +85,15 @@ public class MailSenderService
     }
 
 
+    public StringBuffer getBody(HttpServletRequest request)
+    {
+        StringBuffer body = new StringBuffer("<html>This message contains two inline images.<br>");
+        String bodyFromForm = request.getParameter("editor1");
+        System.out.println(bodyFromForm);
+        body.append(bodyFromForm + "<br>");
+        return body;
+    }
+
     public static File convert(MultipartFile file) throws IOException
     {
         File convFile = new File(file.getOriginalFilename());

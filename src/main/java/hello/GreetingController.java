@@ -102,18 +102,11 @@ public class GreetingController
         String mailTo = request.getParameter("mailTo");
         String subject = request.getParameter("subject");
 
-
         //message body --> DO ZMIANY (jak rozwiazac zalaczanie obrazkow)
-        StringBuffer body = new StringBuffer("<html>This message contains two inline images.<br>");
-
-        String bodyFromForm = request.getParameter("editor1");
-        System.out.println(bodyFromForm);
-        body.append(bodyFromForm + "<br>");
-
+        StringBuffer body = service.getBody(request);
 
         // inline images --> DO ZMIANY (funkcja ktora jest wywolywana gdy jest dodany obrazek)
         Map<String, String> inlineImages = new HashMap<String, String>();
-        
         service.images(images, body, inlineImages);
         body.append("</html>");
         ArrayList<String> paths = service.getFiles(files);
@@ -131,15 +124,5 @@ public class GreetingController
         }
         return "success";
     }
-
-    public static File convert(MultipartFile file) throws IOException
-    {
-        File convFile = new File(file.getOriginalFilename());
-        convFile.createNewFile();
-        FileOutputStream fos = new FileOutputStream(convFile);
-        fos.write(file.getBytes());
-        fos.close();
-        return convFile;
-    }
-
+    
 }

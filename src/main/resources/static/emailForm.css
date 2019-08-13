@@ -1,0 +1,19 @@
+
+#sendEmailBtn {
+            float: left;
+            margin-top: 22px;
+        }
+        body, html {
+  			background-image: url("https://mdbootstrap.com/img/Photos/Horizontal/Nature/full page/img(11).jpg");
+  			height: auto;
+  			background-position: center;
+  			background-repeat: repeat-y;
+  			background-size: cover;
+		}
+		.header {
+			text-align: center;
+		}
+		.form-group.required .control-label:after {
+  			content:"*";
+  			color:red;
+		}

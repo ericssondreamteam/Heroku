@@ -84,7 +84,6 @@ public class GreetingController
 
     }
 
-
     //NEW VERSION (fast as fuck)XD
     @RequestMapping(value = "sendEmail", method = RequestMethod.POST)
     public String sendEmailToClient(HttpServletRequest request, @RequestParam("files") MultipartFile[] files, @RequestParam("images") MultipartFile[] images)
@@ -105,8 +104,7 @@ public class GreetingController
 
 
         //message body --> DO ZMIANY (jak rozwiazac zalaczanie obrazkow)
-        StringBuffer body
-                = new StringBuffer("<html>This message contains two inline images.<br>");
+        StringBuffer body = new StringBuffer("<html>This message contains two inline images.<br>");
 
         String bodyFromForm = request.getParameter("editor1");
         System.out.println(bodyFromForm);
@@ -116,30 +114,29 @@ public class GreetingController
         // inline images --> DO ZMIANY (funkcja ktora jest wywolywana gdy jest dodany obrazek)
         Map<String, String> inlineImages = new HashMap<String, String>();
 
-        int imagesCounter = 0;
-        if ((images != null) && (images.length > 0) && (!images.equals("")))
-        {
-            for (MultipartFile file : images)
-            {
-                File newFile2;
-                String pathAndFilename;
-                try
-                {
-                    imagesCounter++;
-                    newFile2 = convert(file);
-                    pathAndFilename = newFile2.getAbsolutePath();
-
-                    inlineImages.put("image" + imagesCounter, pathAndFilename);
-                    body.append("<img src=\"cid:image" + imagesCounter + "\" width=\"30%\" height=\"30%\" /><br>");
-
-                } catch (IOException e)
-                {
-                    e.printStackTrace();
-                }
-            }
-        }
+        //nowe
+        images(images, body, inlineImages);
         body.append("</html>");
 
+        ArrayList<String> paths = getFiles(files);
+
+
+        try
+        {
+            MailSender.send(host, port, mailFrom, password, mailTo,
+                    subject, body.toString(), inlineImages, paths);
+            System.out.println("Email sent.");
+        } catch (Exception ex)
+        {
+            System.out.println("Could not send email.");
+            ex.printStackTrace();
+            return "error";
+        }
+        return "success";
+    }
+
+    public ArrayList<String> getFiles(@RequestParam("files") MultipartFile[] files)
+    {
         ArrayList<String> paths = new ArrayList<>();
 
         if (((files != null) && (files.length > 0) && (!files.equals(""))))
@@ -163,20 +160,33 @@ public class GreetingController
                 System.out.println("----------> MULTIPART PATH" + file.getOriginalFilename());
             }
         }
+        return paths;
+    }
 
+    public void images(@RequestParam("images") MultipartFile[] images, StringBuffer body, Map<String, String> inlineImages)
+    {
+        int imagesCounter = 0;
+        if ((images != null) && (images.length > 0) && (!images.equals("")))
+        {
+            for (MultipartFile file : images)
+            {
+                File newFile2;
+                String pathAndFilename;
+                try
+                {
+                    imagesCounter++;
+                    newFile2 = convert(file);
+                    pathAndFilename = newFile2.getAbsolutePath();
 
-        try
-        {
-            MailSender.send(host, port, mailFrom, password, mailTo,
-                    subject, body.toString(), inlineImages, paths);
-            System.out.println("Email sent.");
-        } catch (Exception ex)
-        {
-            System.out.println("Could not send email.");
-            ex.printStackTrace();
-            return "error";
+                    inlineImages.put("image" + imagesCounter, pathAndFilename);
+                    body.append("<img src=\"cid:image" + imagesCounter + "\" width=\"30%\" height=\"30%\" /><br>");
+
+                } catch (IOException e)
+                {
+                    e.printStackTrace();
+                }
+            }
         }
-        return "success";
     }
 
     public static File convert(MultipartFile file) throws IOException

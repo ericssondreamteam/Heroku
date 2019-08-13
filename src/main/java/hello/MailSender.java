@@ -183,6 +183,4 @@ public class MailSender
             System.out.println("Failed to delete the file "+path);
         }
     }
-
-
 }

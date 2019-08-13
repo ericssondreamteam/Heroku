@@ -5,7 +5,7 @@ div {
 
 html {
     text-align: center;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.5),rgba(0, 0, 0, 0.5)), url("pills.jpg");
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5),rgba(0, 0, 0, 0.5)), url("home.jpg");
     background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
@@ -54,18 +54,13 @@ input {
 }
 
 input.left {
-    background: red;
-    color: #fff;
-    border: 2px solid darkred;
-    margin-right: 5.5vw;
-}
-
-input.right {
-    background: #3366cc;
+    background:#3366cc;
     color: #fff;
     border: 2px solid darkblue;
+    margin-right: 5.5vw;
     margin-left: 5.5vw;
 }
+
 
 form {
     margin-top: 40px;

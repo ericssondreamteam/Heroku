@@ -34,19 +34,12 @@ public class GreetingController
         return "greeting";
     }
 
-    @GetMapping("/mail")
-    public String getMail()
-    {
-        return "mail";
-    }
-
     @GetMapping("/emailForm")
     public String getMailForm()
     {
         return "emailForm";
     }
 
-    //ONLY FOR TEST
     @GetMapping("success")
     public String getSuccess()
     {
@@ -61,7 +54,7 @@ public class GreetingController
         return "login";
     }
 
-    //to do : DELETE getPassword(); cannot tranfer it to service getLogin starts being null why?
+    //to do : DELETE getPassword();
     @RequestMapping(value = "getLogin", method = RequestMethod.POST)
     public String getLogin(HttpServletRequest request, Model model)
     {
@@ -73,7 +66,6 @@ public class GreetingController
         else
             return null;
     }
-
 
     @RequestMapping(value = "sendEmail", method = RequestMethod.POST)
     public String sendEmailToClient(HttpServletRequest request, @RequestParam("files") MultipartFile[] files, @RequestParam("images") MultipartFile[] images,

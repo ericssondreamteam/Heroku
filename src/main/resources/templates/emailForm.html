@@ -14,21 +14,15 @@
             margin-top: 22px;
         }
         body, html {
-  			height: 100%;
-		}
-		.bg {
-  		/* The image used */
-  		background-image: url("https://mdbootstrap.com/img/Photos/Horizontal/Nature/full page/img(11).jpg");
-
-  		height: 200%;
-
-  		/* Center and scale the image nicely */
-  		background-position: center;
-  		background-repeat: repeat-y;
-  		background-size: cover;
+  			background-image: url("https://mdbootstrap.com/img/Photos/Horizontal/Nature/full page/img(11).jpg");
+  			height: auto;
 		}
 		.header {
 			text-align: center;
+		}
+		.form-group.required .control-label:after {
+  			content:"*";
+  			color:red;
 		}
     </style>
     <script src="ckeditor.js"></script>
@@ -41,7 +35,166 @@
 
 </head>
 <body>
-<div class="bg">
+<br><br>
+<form id="sendEmailForm" method="post" action="sendEmail" enctype="multipart/form-data" >
+<div class="container contact">
+	<div class="row">
+		<div class="col-md-3">
+			<div class="contact-info">
+				<h2>Contact Us</h2>
+				<h4>We would love to hear from you !</h4>
+				<br><br>
+				<img src="Logo.png" alt="Logo" height="200" width="220"> 
+			</div>
+		</div>
+		<div class="col-md-9">
+			<div class="contact-form">
+				<div class="form-group required">
+				  <label class="control-label col-sm-2" for="fname"><b>Recipient:</b></label>
+				  <div class="col-sm-10">          
+					<input id="receiverMail" type="text" name="mailTo"
+                           required pattern="^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$"
+                           class="form-control mb-7 col-12" placeholder="Please enter email address" />
+				  </div>
+				</div>
+				<div class="form-group required">
+				  <label class="control-label col-sm-2" for="lname" required="required" ><b>Subject:</b></label>
+				  <div class="col-sm-10">          
+					<input id="mailSubject" required minlength="1" type="text" class="form-control mb-7 col-12" name="subject" placeholder="Please enter subject" />
+				  </div>
+				</div>
+				<div class="form-group required">
+				  <label class="control-label col-sm-2" for="email"><b>Message:</b></label>
+				  <div class="col-sm-10">
+					<textarea name="editor1" id="editor1"  onpaste="console.log('onpastefromhtml')" rows="10" cols="80" >
+                Please enter a message...
+            </textarea>
+            <script>
+                // Replace the <textarea id="editor1"> with a CKEditor
+                // instance, using default configuration.
+                CKEDITOR.replace( 'editor1' );
+            </script>
+             <script>
+                var PasteImage = function (el) {
+                this._el = el;
+                this._listenForPaste();
+              };
+        
+              PasteImage.prototype._getURLObj = function () {
+                return window.URL || window.webkitURL;
+              };
+        
+              PasteImage.prototype._pasteImage = function (image) {
+                this.emit('paste-image', image);
+              };
+        
+              PasteImage.prototype._pasteImageSource = function (src) {
+                var self = this,
+                  image = new Image();
+        
+                image.onload = function () {
+                  self._pasteImage(image);
+                };
+        
+                image.src = src;
+              };
+        
+              PasteImage.prototype._onPaste = function (e) {
+        
+                // We need to check if event.clipboardData is supported (Chrome & IE)
+                if (e.clipboardData && e.clipboardData.items) {
+        
+                  // Get the items from the clipboard
+                  var items = e.clipboardData.items;
+        
+                  // Loop through all items, looking for any kind of image
+                  for (var i = 0; i < items.length; i++) {
+                    if (items[i].type.indexOf('image') !== -1) {
+                      // We need to represent the image as a file
+                      var blob = items[i].getAsFile();
+        
+                      // Use a URL or webkitURL (whichever is available to the browser) to create a
+                      // temporary URL to the object
+                      var URLObj = this._getURLObj();
+                      var source = URLObj.createObjectURL(blob);
+        
+                      // The URL can then be used as the source of an image
+                      this._pasteImageSource(source);
+        
+                      // Prevent the image (or URL) from being pasted into the contenteditable element
+                      e.preventDefault();
+                    }
+                  }
+                }
+              };
+        
+              PasteImage.prototype._listenForPaste = function () {
+                var self = this;
+        
+                self._origOnPaste = self._el.onpaste;
+        
+                self._el.addEventListener('paste', function (e) {
+        
+                  self._onPaste(e);
+        
+                  // Preserve an existing onpaste event handler
+                  if (self._origOnPaste) {
+                    self._origOnPaste.apply(this, arguments);
+                  }
+        
+                });
+              };
+        
+              // TODO: use EventEmitter instead
+              PasteImage.prototype.on = function (event, callback) {
+                this._callback = callback;
+              };
+        
+              // TODO: use EventEmitter instead
+              PasteImage.prototype.emit = function (event, arg) {
+                this._callback(arg);
+              };
+        
+              // -----
+        
+              var pasteImage = new PasteImage(document.getElementById('editor1'));
+        
+              pasteImage.on('paste-image', function (image) {
+                document.body.appendChild(image);
+              });
+              
+                </script>
+				  </div>
+				</div>
+				<div class="form-group">
+				  <label class="control-label col-sm-2" for="comment"><b>Images:</b></label>
+				  <div class="col-sm-10">
+					<input id="imageInEmail" type="file" name="images" size="60" multiple/>
+				  </div>
+				</div>
+				
+				<div class="form-group">
+				  <label class="control-label col-sm-2" for="comment"><b>Attachment:</b></label>
+				  <div class="col-sm-10">
+					<input id="mailAttachment" type="file" name="files" size="60" multiple/>
+				  </div>
+				</div>
+				
+				<div>        
+				  <div class="col-sm-offset-2 col-sm-10">
+					<button id="sendEmailBtn" type="submit" class="btn btn-info col-2" >Send Email</button>
+				  </div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<br><br>
+</form>
+</body>
+</html>
+
+<!-- <div class="bg">
     <h2 class="header"><b>Email Sending Form</b></h2>
     <hr>
     <form id="sendEmailForm" method="post" action="sendEmail" enctype="multipart/form-data" >
@@ -176,6 +329,4 @@
         </table>
     </form>
     <hr>
-</div>
-</body>
-</html>
+</div> -->

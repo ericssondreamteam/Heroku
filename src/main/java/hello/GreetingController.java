@@ -1,6 +1,8 @@
 package hello;
 
 import hello.model.HtmlCondition;
+import hello.model.MailSenderService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +22,8 @@ import java.util.Map;
 @Controller
 public class GreetingController
 {
+    @Autowired
+    private MailSenderService service;
     private User user;
 
     @GetMapping("/")
@@ -54,36 +58,38 @@ public class GreetingController
     }
 
     @GetMapping("/login")
-    public String getLoginPage(Model model){
-       // if(HtmlCondition.getCondition().equals("true"))
-        System.out.println("\n\n**************LOGIN PAGE*************");
-        model.addAttribute("valid",HtmlCondition.getCondition());
-        System.out.println("----------------------------------------------->"+HtmlCondition.getCondition());
+    public String getLoginPage(Model model)
+    {
+        // if(HtmlCondition.getCondition().equals("true"))
+        service.print(model);
         return "login";
     }
 
-    //to do : DELETE getPassword();
+    //to do : DELETE getPassword(); cannot tranfer it to service getLogin starts being null why?
     @RequestMapping(value = "getLogin", method = RequestMethod.POST)
-    public String getLogin(HttpServletRequest request, Model model){
+    public String getLogin(HttpServletRequest request, Model model)
+    {
         user = new User(request.getParameter("login"), request.getParameter("password"));
         System.out.println("getLogin -----> LOGIN: " + user.getLogin() + " PASSWORD: " + user.getPassword());
         HtmlCondition.setCondition("true");
-        model.addAttribute("valid",HtmlCondition.getCondition());
-        System.out.println("GET---------------------------------------------->"+HtmlCondition.getCondition());
-
-        if(MailSender.checkConnection(user).equals("login"))
+        model.addAttribute("valid", HtmlCondition.getCondition());
+        System.out.println("GET---------------------------------------------->" + HtmlCondition.getCondition());
+        if (MailSender.checkConnection(user).equals("login"))
             return "login";
-        if(MailSender.checkConnection(user).equals("emailForm"))
+        if (MailSender.checkConnection(user).equals("emailForm"))
             return "emailForm";
         else
             return null;
+
+
     }
+
 
     //NEW VERSION (fast as fuck)XD
     @RequestMapping(value = "sendEmail", method = RequestMethod.POST)
-    public String sendEmailToClient(HttpServletRequest request, @RequestParam("files") MultipartFile[] files,@RequestParam("images") MultipartFile[] images)
+    public String sendEmailToClient(HttpServletRequest request, @RequestParam("files") MultipartFile[] files, @RequestParam("images") MultipartFile[] images)
     {
-        if(files.length>10 || images.length>10)
+        if (files.length > 10 || images.length > 10)
         {
             return "error";
         }
@@ -110,9 +116,10 @@ public class GreetingController
         // inline images --> DO ZMIANY (funkcja ktora jest wywolywana gdy jest dodany obrazek)
         Map<String, String> inlineImages = new HashMap<String, String>();
 
-        int imagesCounter=0;
-        if((images != null) && (images.length > 0) && (!images.equals("")) ){
-            for(MultipartFile file :images)
+        int imagesCounter = 0;
+        if ((images != null) && (images.length > 0) && (!images.equals("")))
+        {
+            for (MultipartFile file : images)
             {
                 File newFile2;
                 String pathAndFilename;
@@ -122,7 +129,7 @@ public class GreetingController
                     newFile2 = convert(file);
                     pathAndFilename = newFile2.getAbsolutePath();
 
-                    inlineImages.put("image"+imagesCounter,pathAndFilename);
+                    inlineImages.put("image" + imagesCounter, pathAndFilename);
                     body.append("<img src=\"cid:image" + imagesCounter + "\" width=\"30%\" height=\"30%\" /><br>");
 
                 } catch (IOException e)
@@ -135,8 +142,9 @@ public class GreetingController
 
         ArrayList<String> paths = new ArrayList<>();
 
-        if(((files != null) && (files.length > 0) && (!files.equals("")))){
-            for(MultipartFile file :files)
+        if (((files != null) && (files.length > 0) && (!files.equals(""))))
+        {
+            for (MultipartFile file : files)
             {
                 File newFile;
                 String pathAndFilename;
@@ -160,10 +168,9 @@ public class GreetingController
         try
         {
             MailSender.send(host, port, mailFrom, password, mailTo,
-                    subject, body.toString(), inlineImages,paths);
+                    subject, body.toString(), inlineImages, paths);
             System.out.println("Email sent.");
-        }
-        catch (Exception ex)
+        } catch (Exception ex)
         {
             System.out.println("Could not send email.");
             ex.printStackTrace();

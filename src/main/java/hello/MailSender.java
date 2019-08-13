@@ -50,49 +50,49 @@ public class MailSender
         msg.setSentDate(new Date());
 
 
-            // creates message part
-            MimeBodyPart messageBodyPart = new MimeBodyPart();
-            messageBodyPart.setContent(htmlBody, "text/html");
+        // creates message part
+        MimeBodyPart messageBodyPart = new MimeBodyPart();
+        messageBodyPart.setContent(htmlBody, "text/html");
 
-            // creates multi-part
-            Multipart multipart = new MimeMultipart();
-            multipart.addBodyPart(messageBodyPart);
+        // creates multi-part
+        Multipart multipart = new MimeMultipart();
+        multipart.addBodyPart(messageBodyPart);
 
-            // adds inline image attachments
-            if (mapInlineImages != null && mapInlineImages.size() > 0)
+        // adds inline image attachments
+        if (mapInlineImages != null && mapInlineImages.size() > 0)
+        {
+            Set<String> setImageID = mapInlineImages.keySet();
+
+            for (String contentId : setImageID)
             {
-                Set<String> setImageID = mapInlineImages.keySet();
+                MimeBodyPart imagePart = new MimeBodyPart();
+                imagePart.setHeader("Content-ID", "<" + contentId + ">");
+                imagePart.setDisposition(MimeBodyPart.INLINE);
 
-                for (String contentId : setImageID)
+                String imageFilePath = mapInlineImages.get(contentId);
+                try
                 {
-                    MimeBodyPart imagePart = new MimeBodyPart();
-                    imagePart.setHeader("Content-ID", "<" + contentId + ">");
-                    imagePart.setDisposition(MimeBodyPart.INLINE);
-
-                    String imageFilePath = mapInlineImages.get(contentId);
-                    try
-                    {
-                        imagePart.attachFile(imageFilePath);
-                    } catch (IOException ex)
-                    {
-                        ex.printStackTrace();
-                    }
-
-                    multipart.addBodyPart(imagePart);
+                    imagePart.attachFile(imageFilePath);
+                } catch (IOException ex)
+                {
+                    ex.printStackTrace();
                 }
+
+                multipart.addBodyPart(imagePart);
             }
-        if(paths.size() != 0)
+        }
+        if (paths.size() != 0)
         {
             //multipart = new MimeMultipart();
             //petla ktora przechodzi po tablicy String
 
-            for (String s: paths)
+            for (String s : paths)
             {
                 messageBodyPart = new MimeBodyPart();//todo jak było poza for to nie działało
                 //System.out.println("TESTTTTTTTTTTTTTTTT:              "+s);
                 String file = s;
-                String [] path=s.split(Pattern.quote("\\"));
-                String fileName = path[path.length-1];
+                String[] path = s.split(Pattern.quote("\\"));
+                String fileName = path[path.length - 1];
                 //System.out.println("TESTTTTTTTTTTTTTTTT plik:              "+path[path.length-1]);
                 DataSource source = new FileDataSource(file);
                 messageBodyPart.setDataHandler(new DataHandler(source));
@@ -107,8 +107,8 @@ public class MailSender
         Transport.send(msg);
     }
 
-    public static String checkConnection(User user){
-
+    public static String checkConnection(User user)
+    {
         boolean check = false;
         //Java Version
         int port = 587;
@@ -116,10 +116,11 @@ public class MailSender
         String login = user.getLogin();
         String pwd = user.getPassword();
 
-        try {
+        try
+        {
             Properties props = new Properties();
             // required for outlook
-            props.put("mail.smtp.starttls.enable","true");
+            props.put("mail.smtp.starttls.enable", "true");
             props.put("mail.smtp.auth", "true");
             // or use getDefaultInstance instance if desired...
             Session session = Session.getInstance(props, null);
@@ -127,16 +128,16 @@ public class MailSender
             transport.connect(host, port, login, pwd);
             transport.close();
             System.out.println("---->checkConnection<---- Login and password correct.");
-        }
-        catch(AuthenticationFailedException e) {
+        } catch (AuthenticationFailedException e)
+        {
             System.out.println("---->checkConnection<---- AuthenticationFailedException - for authentication failures");
             //e.printStackTrace();
             HtmlCondition.setCondition("true");
             return "login";
-        }
-        catch(MessagingException e) {
+        } catch (MessagingException e)
+        {
             System.out.println("---->checkConnection<---- for other failures");
-           // e.printStackTrace();
+            // e.printStackTrace();
             HtmlCondition.setCondition("true");
             return "login";
         }

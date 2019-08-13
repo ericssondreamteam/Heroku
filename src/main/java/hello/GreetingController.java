@@ -115,18 +115,17 @@ public class GreetingController
         Map<String, String> inlineImages = new HashMap<String, String>();
 
         //nowe
-        images(images, body, inlineImages);
+        service.images(images, body, inlineImages);
         body.append("</html>");
-
+        //nowe2
         ArrayList<String> paths = getFiles(files);
-
 
         try
         {
-            MailSender.send(host, port, mailFrom, password, mailTo,
-                    subject, body.toString(), inlineImages, paths);
+            MailSender.send(host, port, mailFrom, password, mailTo, subject, body.toString(), inlineImages, paths);
             System.out.println("Email sent.");
-        } catch (Exception ex)
+        }
+        catch (Exception ex)
         {
             System.out.println("Could not send email.");
             ex.printStackTrace();
@@ -163,31 +162,31 @@ public class GreetingController
         return paths;
     }
 
-    public void images(@RequestParam("images") MultipartFile[] images, StringBuffer body, Map<String, String> inlineImages)
-    {
-        int imagesCounter = 0;
-        if ((images != null) && (images.length > 0) && (!images.equals("")))
-        {
-            for (MultipartFile file : images)
-            {
-                File newFile2;
-                String pathAndFilename;
-                try
-                {
-                    imagesCounter++;
-                    newFile2 = convert(file);
-                    pathAndFilename = newFile2.getAbsolutePath();
-
-                    inlineImages.put("image" + imagesCounter, pathAndFilename);
-                    body.append("<img src=\"cid:image" + imagesCounter + "\" width=\"30%\" height=\"30%\" /><br>");
-
-                } catch (IOException e)
-                {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
+//    public void images(@RequestParam("images") MultipartFile[] images, StringBuffer body, Map<String, String> inlineImages)
+//    {
+//        int imagesCounter = 0;
+//        if ((images != null) && (images.length > 0) && (!images.equals("")))
+//        {
+//            for (MultipartFile file : images)
+//            {
+//                File newFile2;
+//                String pathAndFilename;
+//                try
+//                {
+//                    imagesCounter++;
+//                    newFile2 = convert(file);
+//                    pathAndFilename = newFile2.getAbsolutePath();
+//
+//                    inlineImages.put("image" + imagesCounter, pathAndFilename);
+//                    body.append("<img src=\"cid:image" + imagesCounter + "\" width=\"30%\" height=\"30%\" /><br>");
+//
+//                } catch (IOException e)
+//                {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }
+//    }
 
     public static File convert(MultipartFile file) throws IOException
     {

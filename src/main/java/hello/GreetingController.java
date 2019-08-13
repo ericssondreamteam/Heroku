@@ -1,6 +1,5 @@
 package hello;
 
-import hello.model.HtmlCondition;
 import hello.model.MailSenderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,9 +11,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -69,7 +65,7 @@ public class GreetingController
     @RequestMapping(value = "getLogin", method = RequestMethod.POST)
     public String getLogin(HttpServletRequest request, Model model)
     {
-        service.bla(request, model);
+        user = service.userLogin(request, model);
         if (MailSender.checkConnection(user).equals("login"))
             return "login";
         if (MailSender.checkConnection(user).equals("emailForm"))

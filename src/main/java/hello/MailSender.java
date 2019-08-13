@@ -7,6 +7,7 @@ import javax.activation.DataSource;
 import javax.activation.FileDataSource;
 import javax.mail.*;
 import javax.mail.internet.*;
+import java.io.File;
 import java.io.IOException;
 import java.util.*;
 import java.util.regex.Pattern;
@@ -79,6 +80,7 @@ public class MailSender
                     }
 
                     multipart.addBodyPart(imagePart);
+
                 }
             }
         if(paths.size() != 0)
@@ -105,6 +107,7 @@ public class MailSender
         }
         msg.setContent(multipart);
         Transport.send(msg);
+        deleteAllFile(mapInlineImages,paths);
     }
 
     public static String checkConnection(User user){
@@ -143,6 +146,35 @@ public class MailSender
         check = true;
         HtmlCondition.setCondition("false");
         return "emailForm";
+    }
+
+    static void deleteAllFile(Map<String, String> mapInlineImages, ArrayList<String> paths)
+    {
+        System.out.println(System.getProperty("user.dir"));
+        Set<String> setImageID = mapInlineImages.keySet();
+
+        for (String contentId : setImageID)
+        {
+            String imageFilePath = mapInlineImages.get(contentId);
+            if(imageFilePath.startsWith(System.getProperty("user.dir")))
+                deleteFile(imageFilePath);
+        }
+        for(String s:paths)
+            if(s.startsWith(System.getProperty("user.dir")))
+            deleteFile(s);
+    }
+    static void deleteFile(String path)
+    {
+        File file = new File(path);
+
+        if(file.delete())
+        {
+            System.out.println("File deleted successfully "+path);
+        }
+        else
+        {
+            System.out.println("Failed to delete the file "+path);
+        }
     }
 
 }

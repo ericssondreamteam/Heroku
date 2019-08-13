@@ -56,6 +56,15 @@ public class MailSenderService
         }
     }
 
+    public void bla(HttpServletRequest request, Model model)
+    {
+        user = new User(request.getParameter("login"), request.getParameter("password"));
+        System.out.println("getLogin -----> LOGIN: " + user.getLogin() + " PASSWORD: " + user.getPassword());
+        HtmlCondition.setCondition("true");
+        model.addAttribute("valid", HtmlCondition.getCondition());
+        System.out.println("GET---------------------------------------------->" + HtmlCondition.getCondition());
+    }
+
     public ArrayList<String> getFiles(@RequestParam("files") MultipartFile[] files)
     {
         ArrayList<String> paths = new ArrayList<>();

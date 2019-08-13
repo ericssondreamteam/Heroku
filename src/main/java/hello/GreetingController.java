@@ -24,7 +24,7 @@ public class GreetingController
 {
     @Autowired
     private MailSenderService service;
-    private User user;
+    private User user = new User();
 
     @GetMapping("/")
     public String getHome()
@@ -69,11 +69,7 @@ public class GreetingController
     @RequestMapping(value = "getLogin", method = RequestMethod.POST)
     public String getLogin(HttpServletRequest request, Model model)
     {
-        user = new User(request.getParameter("login"), request.getParameter("password"));
-        System.out.println("getLogin -----> LOGIN: " + user.getLogin() + " PASSWORD: " + user.getPassword());
-        HtmlCondition.setCondition("true");
-        model.addAttribute("valid", HtmlCondition.getCondition());
-        System.out.println("GET---------------------------------------------->" + HtmlCondition.getCondition());
+        service.bla(request, model);
         if (MailSender.checkConnection(user).equals("login"))
             return "login";
         if (MailSender.checkConnection(user).equals("emailForm"))
@@ -81,6 +77,7 @@ public class GreetingController
         else
             return null;
     }
+
 
     @RequestMapping(value = "sendEmail", method = RequestMethod.POST)
     public String sendEmailToClient(HttpServletRequest request, @RequestParam("files") MultipartFile[] files, @RequestParam("images") MultipartFile[] images,

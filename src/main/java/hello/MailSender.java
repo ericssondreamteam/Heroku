@@ -40,24 +40,11 @@ public class MailSender
             }
         };
         Session session = Session.getInstance(properties, auth);
-
+        MimeBodyPart messageBodyPart;
         // creates a new e-mail message
-        Message msg = new MimeMessage(session);
+        Message msg = getMessage(userName, toAddress, subject, session);
+        Multipart multipart = getMultipart(htmlBody);
 
-        msg.setFrom(new InternetAddress(userName));
-        InternetAddress[] toAddresses = {new InternetAddress(toAddress)};
-        msg.setRecipients(Message.RecipientType.TO, toAddresses);
-        msg.setSubject(subject);
-        msg.setSentDate(new Date());
-
-
-        // creates message part
-        MimeBodyPart messageBodyPart = new MimeBodyPart();
-        messageBodyPart.setContent(htmlBody, "text/html");
-
-        // creates multi-part
-        Multipart multipart = new MimeMultipart();
-        multipart.addBodyPart(messageBodyPart);
 
         // adds inline image attachments
         if (mapInlineImages != null && mapInlineImages.size() > 0)
@@ -84,7 +71,6 @@ public class MailSender
         }
         if (paths.size() != 0)
         {
-            //multipart = new MimeMultipart();
             //petla ktora przechodzi po tablicy String
 
             for (String s : paths)
@@ -107,6 +93,28 @@ public class MailSender
         msg.setContent(multipart);
         Transport.send(msg);
         deleteAllFile(mapInlineImages,paths);
+    }
+
+    public static Multipart getMultipart(String htmlBody) throws MessagingException
+    {
+        // creates message part
+        MimeBodyPart messageBodyPart = new MimeBodyPart();
+        messageBodyPart.setContent(htmlBody, "text/html");
+
+        // creates multi-part
+        Multipart multipart = new MimeMultipart();
+        multipart.addBodyPart(messageBodyPart);
+        return multipart;
+    }
+
+    public static Message getMessage(String userName, String toAddress, String subject, Session session) throws MessagingException
+    {
+        Message msg = new MimeMessage(session);
+        msg.setFrom(new InternetAddress(userName));
+        InternetAddress[] toAddresses = {new InternetAddress(toAddress)};
+        msg.setRecipients(Message.RecipientType.TO, toAddresses);
+        msg.setSubject(subject);
+        return msg;
     }
 
     public static String checkConnection(User user)

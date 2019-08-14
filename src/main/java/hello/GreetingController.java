@@ -77,7 +77,7 @@ public class GreetingController
         }
         // SMTP info
         String host = "smtp.internal.ericsson.com";
-        String port = "25";
+        String port = "587";
         String mailFrom = user.getLogin();
         String password = user.getPassword();
 

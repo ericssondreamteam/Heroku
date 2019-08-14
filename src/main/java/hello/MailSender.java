@@ -130,7 +130,7 @@ public class MailSender
     {
         boolean check = false;
         //Java Version
-        int port = 25;
+        int port = 587;
         String host = "smtp.internal.ericsson.com";
         String login = user.getLogin();
         String pwd = user.getPassword();

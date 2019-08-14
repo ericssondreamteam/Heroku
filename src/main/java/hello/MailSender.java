@@ -15,11 +15,9 @@ import java.util.regex.Pattern;
 public class MailSender
 {
 
-    public static void send(String host, String port,
-                            final String userName, final String password, String toAddress,
-                            String subject, String htmlBody,
-                            Map<String, String> mapInlineImages, ArrayList<String> paths)
-            throws AddressException, MessagingException
+    public static void send(String host, String port, final String userName, final String password,
+                            String toAddress, String subject, String htmlBody, Map<String, String> mapInlineImages,
+                            ArrayList<String> paths) throws AddressException, MessagingException
     {
         // sets SMTP server properties
         Properties properties = new Properties();
@@ -39,14 +37,49 @@ public class MailSender
                 return new PasswordAuthentication(userName, password);
             }
         };
+
         Session session = Session.getInstance(properties, auth);
         MimeBodyPart messageBodyPart;
         // creates a new e-mail message
         Message msg = getMessage(userName, toAddress, subject, session);
         Multipart multipart = getMultipart(htmlBody);
 
-
         // adds inline image attachments
+        addAttachment(mapInlineImages, multipart);
+        addPath(paths, multipart);
+        msg.setContent(multipart);
+        Transport.send(msg);
+        deleteAllFile(mapInlineImages,paths);
+    }
+
+    public static void addPath(ArrayList<String> paths, Multipart multipart) throws MessagingException
+    {
+        MimeBodyPart messageBodyPart;
+        if (paths.size() != 0)
+        {
+            //petla ktora przechodzi po tablicy String
+
+            for (String s : paths)
+            {
+                messageBodyPart = new MimeBodyPart();//todo jak było poza for to nie działało
+                //System.out.println("TESTTTTTTTTTTTTTTTT:         "+s);
+                String file = s;
+                String[] path = s.split(Pattern.quote("\\"));
+                String fileName = path[path.length - 1];
+                //System.out.println("TESTTTTTTTTTTTTTTTT plik:     "+path[path.length-1]);
+                DataSource source = new FileDataSource(file);
+                messageBodyPart.setDataHandler(new DataHandler(source));
+                messageBodyPart.setFileName(fileName);
+
+                //i na koniec dodaje pliczek
+                multipart.addBodyPart(messageBodyPart);
+            }
+
+        }
+    }
+
+    public static void addAttachment(Map<String, String> mapInlineImages, Multipart multipart) throws MessagingException
+    {
         if (mapInlineImages != null && mapInlineImages.size() > 0)
         {
             Set<String> setImageID = mapInlineImages.keySet();
@@ -69,30 +102,6 @@ public class MailSender
                 multipart.addBodyPart(imagePart);
             }
         }
-        if (paths.size() != 0)
-        {
-            //petla ktora przechodzi po tablicy String
-
-            for (String s : paths)
-            {
-                messageBodyPart = new MimeBodyPart();//todo jak było poza for to nie działało
-                //System.out.println("TESTTTTTTTTTTTTTTTT:              "+s);
-                String file = s;
-                String[] path = s.split(Pattern.quote("\\"));
-                String fileName = path[path.length - 1];
-                //System.out.println("TESTTTTTTTTTTTTTTTT plik:              "+path[path.length-1]);
-                DataSource source = new FileDataSource(file);
-                messageBodyPart.setDataHandler(new DataHandler(source));
-                messageBodyPart.setFileName(fileName);
-
-                //i na koniec dodaje pliczek
-                multipart.addBodyPart(messageBodyPart);
-            }
-
-        }
-        msg.setContent(multipart);
-        Transport.send(msg);
-        deleteAllFile(mapInlineImages,paths);
     }
 
     public static Multipart getMultipart(String htmlBody) throws MessagingException
@@ -133,21 +142,18 @@ public class MailSender
             props.put("mail.smtp.starttls.enable", "true");
             props.put("mail.smtp.auth", "true");
             // or use getDefaultInstance instance if desired...
-            Session session = Session.getInstance(props, null);
-            Transport transport = session.getTransport("smtp");
-            transport.connect(host, port, login, pwd);
-            transport.close();
+            getSession(port, host, login, pwd, props);
             System.out.println("---->checkConnection<---- Login and password correct.");
-        } catch (AuthenticationFailedException e)
+        }
+        catch (AuthenticationFailedException e)
         {
             System.out.println("---->checkConnection<---- AuthenticationFailedException - for authentication failures");
-            //e.printStackTrace();
             HtmlCondition.setCondition("true");
             return "login";
-        } catch (MessagingException e)
+        }
+        catch (MessagingException e)
         {
             System.out.println("---->checkConnection<---- for other failures");
-            // e.printStackTrace();
             HtmlCondition.setCondition("true");
             return "login";
         }
@@ -155,6 +161,15 @@ public class MailSender
         HtmlCondition.setCondition("false");
         return "emailForm";
     }
+
+    public static void getSession(int port, String host, String login, String pwd, Properties props) throws MessagingException
+    {
+        Session session = Session.getInstance(props, null);
+        Transport transport = session.getTransport("smtp");
+        transport.connect(host, port, login, pwd);
+        transport.close();
+    }
+
     static void deleteAllFile(Map<String, String> mapInlineImages, ArrayList<String> paths)
     {
         System.out.println(System.getProperty("user.dir"));

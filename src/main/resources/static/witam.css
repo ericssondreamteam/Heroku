@@ -44,12 +44,12 @@ a {
 input {
     margin-top: 0;
 
-    width: 7vw;
+    width: 10vw;
     height: auto;
-    padding: 2vh;
+    padding: 3vh;
     cursor: pointer;
     font-weight: bold;
-    font-size: 70%;
+    font-size: 100%;
     border-radius: 60px;
 }
 
@@ -57,11 +57,11 @@ input.left {
     background:#3366cc;
     color: #fff;
     border: 2px solid darkblue;
-    margin-right: 5.5vw;
-    margin-left: 5.5vw;
+    margin-right: auto;
+    margin-left: auto;
 }
 
 
 form {
-    margin-top: 40px;
+    margin-top: 10px;
 }

@@ -9,7 +9,7 @@ html {
 
 div {
     display: block;
-    margin-top: 50px;
+    margin-top: 25vh;
 }
 
 /*.footer.content > img,
@@ -19,7 +19,7 @@ div {
 
 p {
     text-align: center;
-    color: white;
+    color: lawngreen;
     font-size: 40px;
     font-weight: bold;
 }

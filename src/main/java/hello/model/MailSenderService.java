@@ -99,8 +99,14 @@ public class MailSenderService
     {
         StringBuffer body = new StringBuffer("<html>This message contains two inline images.<br>");
         String bodyFromForm = request.getParameter("editor1");
+        String firstAnswer = request.getParameter("field1");
+        String secondAnswer = request.getParameter("field2");
+        String thirdAnswer = request.getParameter("field3");
+        String fourthAnswer = request.getParameter("field4");
         System.out.println(bodyFromForm);
-        body.append(bodyFromForm + "<br>");
+        body.append(bodyFromForm + "<br>" + "Pole1" + "<br>" + firstAnswer + "<br><br>" + "Pole2"+ "<br>"+
+                secondAnswer + "<br><br>" + "Pole3" + "<br>" + thirdAnswer + "<br><BR>" + "Pole4"
+                + "<br>" + fourthAnswer + "<br><br>");
         return body;
     }
 

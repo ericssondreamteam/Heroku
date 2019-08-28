@@ -107,6 +107,7 @@ public class MailSenderService
         body.append(bodyFromForm + "<br>" + "Pole1" + "<br>" + firstAnswer + "<br><br>" + "Pole2"+ "<br>"+
                 secondAnswer + "<br><br>" + "Pole3" + "<br>" + thirdAnswer + "<br><BR>" + "Pole4"
                 + "<br>" + fourthAnswer + "<br><br>");
+        //System.out.println(body);
         return body;
     }
 
